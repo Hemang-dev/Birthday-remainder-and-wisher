@@ -30,6 +30,4 @@ while i >= 0:
         yes = True
         age = int(current_date_lst[0]) - int(bday_log[i][0])
         print(f" It's {person[i]}'s {age} Birthday")
-        i -= 1
-    else:
-        break
+    i -= 1
