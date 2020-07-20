@@ -28,7 +28,7 @@ while i >= 0:
     # birth date as per preadded log
     if current_date_lst[1] == bday_log[i][j] and current_date_lst[2] == bday_log[i][j + 1]:
         yes = True
-        age = int(current_date_lst[0]) - int(bday_log[1][0])
+        age = int(current_date_lst[0]) - int(bday_log[i][0])
         print(f" It's {person[i]}'s {age} Birthday")
         i -= 1
     else:
