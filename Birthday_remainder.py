@@ -12,15 +12,15 @@ bday_log = [
 i = 1  # this will help during loop
 add = input('To add birthday type y:')
 if add.lower() == 'y':
-    new = str(input('Add birthday in format yyyy-mm-dd:'))
-    # print(new_lst)
+    new = input('Add birthday in format yyyy-mm-dd:')
     name = input('Whose bday?')
     new_lst = [name]
     new_ls = new.split( '-' )
     new_lst = new_lst + new_ls
+    # print(new_lst)
     bday_log.append(new_lst)
     i += 1
-print(bday_log)
+# print(bday_log)
 j = 2  # this is for bday month and date
 while i >= 0:
     # current_dat[1] == bd[i][1] this will check if current month is same as birth month  and current date is same as
@@ -28,5 +28,8 @@ while i >= 0:
     if current_date_lst[1] == bday_log[i][j] and current_date_lst[2] == bday_log[i][j + 1]:
         yes = True
         age = int(current_date_lst[0]) - int(bday_log[i][1])
-        print(f" It's {bday_log[i][0]}'s {age} Birthday")
+        if age % 10 == 1:
+            print(f" It's {bday_log[i][0]}'s {age}th Birthday")
+        else:
+            print(f" It's {bday_log[i][0]}'s {age}st Birthday")
     i -= 1
