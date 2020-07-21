@@ -6,8 +6,8 @@ current_date_lst = current_date.split('-')
 # this will convert current date to list which helps to compare with preadded log
 # print(current_dat)
 bday_log = [
-    [1999, 10, 19],
-    [1999, 4, 21]
+    ['1999', '10', '19'],
+    ['1999', '04', '21']
 ]
 person = ['Yash', 'Ayushi']
 i = 1  # this will help during loop
@@ -28,8 +28,6 @@ while i >= 0:
     # birth date as per preadded log
     if current_date_lst[1] == bday_log[i][j] and current_date_lst[2] == bday_log[i][j + 1]:
         yes = True
-        age = int(current_date_lst[0]) - int(bday_log[1][0])
+        age = int(current_date_lst[0]) - int(bday_log[i][0])
         print(f" It's {person[i]}'s {age} Birthday")
-        i -= 1
-    else:
-        break
+    i -= 1
