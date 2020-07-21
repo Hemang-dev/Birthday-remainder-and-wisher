@@ -1,35 +1,27 @@
 import datetime
 
-
-current_date = str((datetime.date.today()))
+current_date = datetime.date.today().strftime('%Y-%m-%d')
 current_date_lst = current_date.split('-')
-# this will convert current date to list which helps to compare with preadded log
-# print(current_dat)
+
 bday_log = [
-    ['Ayushi', '1999', '10', '19'],
-    ['Yash', '1999', '04', '21']
+    ('Ayushi', ('1999', '10', '19')),
+    ('Yash', ('1999', '04', '21')),
 ]
-i = 1  # this will help during loop
-add = input('To add birthday type y:')
-if add.lower() == 'y':
+
+add = input('To add birthday type y:').strip().lower()
+if add[:1] == 'y':
     new = input('Add birthday in format yyyy-mm-dd:')
-    name = input('Whose bday?')
-    new_lst = [name]
-    new_ls = new.split( '-' )
-    new_lst = new_lst + new_ls
     # print(new_lst)
-    bday_log.append(new_lst)
-    i += 1
-# print(bday_log)
-j = 2  # this is for bday month and date
-while i >= 0:
-    # current_dat[1] == bd[i][1] this will check if current month is same as birth month  and current date is same as
+    name = input('Whose bday?')
+    date = new.split( '-' )
+
+    bday_log.append((name, tuple(date)))
+
+for birthday in bday_log:
+    # current_dat[1] == birthday[1][1] this will check if current month is same as birth month  and current date is same as
     # birth date as per preadded log
-    if current_date_lst[1] == bday_log[i][j] and current_date_lst[2] == bday_log[i][j + 1]:
-        yes = True
-        age = int(current_date_lst[0]) - int(bday_log[i][1])
-        if age % 10 == 1:
-            print(f" It's {bday_log[i][0]}'s {age}th Birthday")
-        else:
-            print(f" It's {bday_log[i][0]}'s {age}st Birthday")
-    i -= 1
+
+    if current_date_lst[1] == birthday[1][1] and current_date_lst[2] == birthday[1][2]:
+        age = int(current_date_lst[0]) - int(birthday[1][0])
+        ordinal_suffix = {1: 'st', 2: 'nd', 3: 'rd', 11: 'th', 12: 'th', 13: 'th'}.get(age % 10 if not 10 < age <= 13 else age % 14, 'th')
+        print(f" It's {birthday[0]}'s {age}{ordinal_suffix} Birthday")
