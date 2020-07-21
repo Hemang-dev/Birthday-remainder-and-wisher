@@ -1,33 +1,81 @@
 import datetime
 
 
-current_date = str((datetime.date.today()))
-current_date_lst = current_date.split('-')
-# this will convert current date to list which helps to compare with preadded log
-# print(current_dat)
-bday_log = [
-    ['1999', '10', '19'],
-    ['1999', '04', '21']
-]
-person = ['Yash', 'Ayushi']
-i = 1  # this will help during loop
-add = input('To add birthday type y:')
-if add.lower() == 'y':
-    new = str(input('Add birthday in format yyyy-mm-dd:'))
-    new_lst = new.split('-')
-    # print(new_lst)
-    name = input('Whose bday?')
-    person.append(name)
-    bday_log.append(new_lst)
-    i += 1
-# print(person)
-# print(bday_log)
-j = 1  # this is for bday month and date
-while i >= 0:
-    # current_dat[1] == bd[i][1] this will check if current month is same as birth month  and current date is same as
-    # birth date as per preadded log
-    if current_date_lst[1] == bday_log[i][j] and current_date_lst[2] == bday_log[i][j + 1]:
-        yes = True
-        age = int(current_date_lst[0]) - int(bday_log[i][0])
-        print(f" It's {person[i]}'s {age} Birthday")
-    i -= 1
+def validate_month_date(month, date):
+    '''Check if month and date entered is valid'''
+
+    if month in range(1, 13) and date in range(1, 32):
+        return True
+
+    return False
+
+
+def get_all_birthdates():
+    '''Get all birthdates stored in a file'''
+
+    try:
+        with open('birthday.txt', 'r') as f:
+            return [line.strip('\n') for line in f.readlines()]
+
+    except FileNotFoundError:    # If 'birthday.txt' does not exists then creating an empty 'birthday.txt'
+        with open('birthday.txt', 'w'):
+            return []
+
+
+def write_to_file(contents):
+    with open('birthday.txt', 'w') as f:
+        for content in contents:
+            f.write(f'{content}\n')
+
+
+def add_birthdtes():
+    '''Add birthdates if not already in file'''
+
+    birthdates = get_all_birthdates()
+
+    name = input('\nWhose birthday is it? ').title()
+    date = input('Enter date in YYYY-MM-DD: ')
+    split_date = date.split('-')
+
+    while not validate_month_date(int(split_date[1]), int(split_date[2])):   # Looping until we get valid month and date
+        print('\nInvalid date.')
+
+        date = input('Enter date in YYYY-MM-DD: ')
+        split_date = date.split('-')
+
+    write = f'{name} : {date}'    # ':' is delimiter for seperating name and birthdates
+
+    if write in birthdates:
+        print(f'\n{name}:{date} already exists in file')
+
+    else:
+        birthdates.append(write)
+        birthdates.sort(key=len)    # Sorting according to the length in ascending order
+
+        write_to_file(birthdates)
+
+
+def main():
+    '''Entry point of the program'''
+
+    current_date = datetime.date.today()
+    option = input('Do you want to add birthdates (y/n)?').lower()
+
+    if option == 'y':
+        add_birthdtes()
+
+    lines = get_all_birthdates()
+
+    for line in lines:
+        split_line = line.split(' : ')
+        name = split_line[0]
+        date = split_line[1].split('-')
+
+        month, day = int(date[1]), int(date[2])
+
+        if current_date.month == month and current_date.day == day:
+            print(f'\nToday is {name}\'s birthday')
+
+
+if __name__ == '__main__':
+    main()
